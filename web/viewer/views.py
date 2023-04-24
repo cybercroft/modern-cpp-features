@@ -13,11 +13,20 @@ def home(request):
 
 
 # -----------------------------------------------------------------------------------------------------------
+def refresh(request):
+# -----------------------------------------------------------------------------------------------------------
+    """ Refresh database from files listed """
+    handler = Handler(request)
+    handler.update()
+    return render(request, 'viewer/index.html', handler.get_context())
+
+
+# -----------------------------------------------------------------------------------------------------------
 def version_detail(request, pk):
 # -----------------------------------------------------------------------------------------------------------
     """ Specific CPP version view """
     handler = Handler(request)
-    return render(request, 'viewer/version/list.html', handler.get_context(version_pk=pk))
+    return render(request, 'viewer/version/detail.html', handler.get_context(version_pk=pk))
 
 
 # -----------------------------------------------------------------------------------------------------------
@@ -25,4 +34,4 @@ def feature_detail(request, pk):
 # -----------------------------------------------------------------------------------------------------------
     """ Specific CPP version feature version view """
     handler = Handler(request)
-    return render(request, 'viewer/feature/list.html', handler.get_context(feature_pk=pk))
+    return render(request, 'viewer/feature/detail.html', handler.get_context(feature_pk=pk))

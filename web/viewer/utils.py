@@ -1,25 +1,26 @@
-from pathlib import Path, PurePath
 from django.conf import settings
 from .models import Version, Feature
 
-
+    
 def _reconstruct_database():
+    """ Helper function to reconstruct objects if necessary """
     basedir = settings.BASE_DIR
     srcs = list(basedir.parent.glob('CPP*.md'))
     for src in srcs:
         name = src.name.split(".")[0]
-        v = Version(name=name)
+        v = Version(name=name, path=src)
         v.save()
 
 
-from django.shortcuts import get_object_or_404
 class Handler:
+    """ Intermediate class to handle requests from views """
     def __init__(self, request=None):
         self.versions = Version.objects.all().order_by("name")
         self.request = request
 
     @property
     def is_empty(self):
+        """ Return version objects found in database """
         return False if self.versions.count() > 0 else True 
     
     def update(self):
@@ -29,6 +30,7 @@ class Handler:
         self.versions = Version.objects.all().order_by("name")
         
     def get_context(self, version_pk=None, feature_pk=None):
+        """ Get template context """
         context = {
             "title": "modern-cpp-features",
             "cpp_versions": self.versions,

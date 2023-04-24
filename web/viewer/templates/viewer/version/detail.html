@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+{% if cpp_version %}
+{{cpp_version.to_html}}
+{% endif %}
+</div>
+{% endblock content %}

@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd party apps
+    'markdown_deux',
+    # My apps
     'viewer.apps.ViewerConfig',
 ]
 
