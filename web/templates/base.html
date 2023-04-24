@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{{title}}</title>
+
+    <!-- Load custom styles -->
+    {% include "css.html" %}
+
+    <!-- Additional header -->
+    {% block header %}{% endblock %}
+    
+</head>
+
+<body class="d-flex flex-column">
+
+    <!-- Navigation -->
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center">
+
+            <a title="Home" class="navbar-brand logo" href="{% url 'home' %}">
+                <img src="{% static 'icons/cpp.png' %}" style="height: 100px;" class="img-fluid" alt="cpp">
+            </a>
+
+            <nav id="navbar" class="navbar w-100">
+                {% include 'menu.html' %}
+                <i class="bi bi-list mobile-nav-toggle ms-auto"></i>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="hero" class="d-flex align-items-center {% if hero %}{{hero}}{% else %}bg-hero-default{% endif %}">
+        {% block hero %}{% endblock %}
+    </section>
+
+    <!-- Display content here -->
+    <main id="main" role="main" class="{% if main %}{{main}}{% else %}fill{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Add footer here -->
+    {% include 'footer.html' %}    
+
+    <div id="preloader"></div>
+
+    <!-- Optional JavaScript -->
+    {% include "js.html" %}
+
+    <!-- Additional JavaScript -->
+    {% block js %}{% endblock %}
+
+    <!-- JQuery script block -->
+    <script>
+        setTimeout(function () {
+            $('.alert').alert('fade');
+            $('.alert').alert('close');
+        }, 2500);        
+        $(document).ready(function() {
+            {% block jquery %}{% endblock %}
+        });
+    </script>
+
+</body>
+</html>
