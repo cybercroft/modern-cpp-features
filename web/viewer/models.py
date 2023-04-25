@@ -1,4 +1,4 @@
-import markdown_deux as md
+import markdown as md
 from django.utils.safestring import mark_safe
 from django.db import models
 
@@ -11,11 +11,30 @@ class Version(models.Model):
     def __str__(self):
         return self.name 
 
+    @property
     def to_html(self):
+        md_extensions = [
+            'toc',
+            'nl2br',
+            'tables',
+            'fenced_code',
+            'codehilite',
+        ]
+        md_configs = {
+            "codehilite": {
+                'guess_lang': False,
+                'use_pygments': True,
+                'noclasses': True,
+                'force_language': 'cpp',
+                'pygments_style': 'default',
+            },
+        }
         with open(self.path, 'r') as f:
             temp_md= f.read()
-        return mark_safe(md.markdown(temp_md))
-    
+            temp_md = temp_md.replace("```c++", "```cpp")
+        parser = md.Markdown(extensions=md_extensions, extension_configs=md_configs)
+        return mark_safe(parser.convert(temp_md))
+        
     
 class Feature(models.Model):
     """ Object to describe a CPP version language/library feature """
