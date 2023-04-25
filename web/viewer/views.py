@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.urls import reverse
-from django.template.loader import render_to_string
 from .utils import Handler 
 from .models import Feature
 
@@ -11,9 +10,27 @@ def home(request):
 # -----------------------------------------------------------------------------------------------------------
     """ Introductory view """
     handler = Handler(request)
+    
     if handler.is_empty:
         handler.update()
-    return render(request, 'viewer/index.html', handler.get_context())
+    
+    commons = {}
+    feature_map = {}
+    feature_qs = Feature.objects.all()
+    
+    for feature in feature_qs:
+        if feature.name in feature_map.keys():
+            feature_map[feature.name].append(feature)
+        else:
+            feature_map[feature.name] = [feature]
+    for feature_name, features in feature_map.items():
+        if len(features) > 1:
+            commons[feature_name] = features
+    extras = {
+        "common_features": commons,
+        "common_features_count": len(commons),
+    }
+    return render(request, 'viewer/index.html', handler.get_context(extras=extras))
 
 
 # -----------------------------------------------------------------------------------------------------------

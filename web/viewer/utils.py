@@ -111,11 +111,12 @@ class Handler:
         _reconstruct_database()
         self.versions = Version.objects.all().order_by("name")
         
-    def get_context(self, version_pk=None, feature_pk=None):
+    def get_context(self, version_pk=None, feature_pk=None, extras=None):
         """ Get template context """
         context = {
             "title": "modern-cpp-features",
             "cpp_versions": self.versions,
+            "extras": extras,
         }
         if version_pk:
             try:

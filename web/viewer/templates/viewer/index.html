@@ -1,6 +1,45 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block hero %}
+<div class="container mt-3 px-3">
+    <div class="row">
+        <div class="col-lg-6 d-flex flex-column pt-4 pt-lg-0 order-1 order-lg-1" data-aos="zoom-in"
+            data-aos-delay="100">
+            <h2 class="text-white mt-4 mb-2">
+                Modern C++ Features
+            </h2>
+        </div>
+    </div>
+</div>
+{% endblock hero %}
+
 {% block content %}
-<span>Under Construction...</span>
+<div class="container mt-4">
+    <h3></h3>
+    <p class="full-justify mt-4">
+        This page is constructed from markdown files listed on  
+        <a href="https://github.com/AnthonyCalandra/modern-cpp-features">this</a> 
+        Github repository. Its purpose is to provide with an easy way 
+        for C++ users to search for version-specific features and examples. 
+        I thought it would be a good reference point for the simple stuff  
+        (for more in-depth information one should visit 
+        <a href="https://en.cppreference.com/">cppreference.com</a>).
+        It can also serve as an example for developers learning the excellent
+        <a href="https://www.djangoproject.com/">Django framework</a>
+        for back-end web development.
+    </p>
+    <p class="center-justify mt-4">
+        This is a work in progress which is dependent on the community. 
+    </p>
+    <div class="text-center">
+        <img src="{% static 'img/bg.jpg' %}" class="rounded mt-4" style="width:60%" data-aos="zoom-in">
+    </div>
+    <p class="center-justify mt-4 mb-4">
+        Please send your feedback to my 
+        <a href="https://github.com/cybercroft">Github account</a> 
+        and report any issues with this server on the 
+        <a href="https://github.com/cybercroft/modern-cpp-features">project repo</a>.
+    </p>
+</div>
 {% endblock content %}
