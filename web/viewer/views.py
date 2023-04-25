@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.urls import reverse
+from django.template.loader import render_to_string
 from .utils import Handler 
+from .models import Feature
 
 
 # -----------------------------------------------------------------------------------------------------------
@@ -35,3 +39,17 @@ def feature_detail(request, pk):
     """ Specific CPP version feature version view """
     handler = Handler(request)
     return render(request, 'viewer/feature/detail.html', handler.get_context(feature_pk=pk))
+
+
+# -----------------------------------------------------------------------------------------------------------
+def feature_search(request):
+# -----------------------------------------------------------------------------------------------------------
+    """ Find CPP version feature based on tag """
+    tag = request.GET.get("tag", None)
+    feature = Feature.objects.filter(tag=tag).first()
+    if feature:
+        url = reverse('feature-detail', args=(feature.pk, ))
+        response = {"url": request.build_absolute_uri(url)}
+    else:
+        response = {"url": None}
+    return JsonResponse(response)

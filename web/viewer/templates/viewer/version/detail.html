@@ -1,10 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="container mt-4">
 {% if cpp_version %}
-{{cpp_version.to_html}}
-{% endif %}
+{% block hero %}
+<div class="container mt-3 px-3">
+    <div class="row">
+        <div class="col-lg-6 d-flex flex-column pt-4 pt-lg-0 order-1 order-lg-1" data-aos="zoom-in"
+            data-aos-delay="100">
+            <h2 class="text-white mt-4 mb-2">
+                {{ cpp_version.name }}
+            </h2>
+        </div>
+        <div class="col-xl-6 col-lg-6 pt-4 order-2 order-lg-2 align-items-end">
+            <div class="d-flex flex-row">
+                {% comment %} FIXME: Maybe some cpp_version.icon? {% endcomment %}
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock hero %}
+{% endif %}
+
+{% block content %}
+<!-- Features -->
+<div class="container mt-4" data-aos="fade-up">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Language Features</h3>
+            <ul>
+                {% for feature in cpp_features_lang %}
+                <li><a href="{% url 'feature-detail' feature.pk %}">{{feature.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Library Features</h3>
+            <ul>
+                {% for feature in cpp_features_lib %}
+                <li><a href="{% url 'feature-detail' feature.pk %}">{{feature.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Other Sections -->
+{% if cpp_sections %}
+{% for section in cpp_sections %}
+<div class="container mt-4" data-aos="fade-up">
+    <h3>{{section.title}}</h3>
+    <div>{{section.description_html}}</div>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock content %}

@@ -1,6 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block hero %}
+<div class="container mt-3 px-3">
+    <div class="row">
+        <div class="col-lg-6 d-flex flex-column pt-4 pt-lg-0 order-1 order-lg-1" data-aos="zoom-in"
+            data-aos-delay="100">
+            <h2 class="text-white mt-4 mb-2">
+                {{ cpp_feature.title }}
+            </h2>
+            <p class="lead mb-2 text-theme-primary">
+                {{ cpp_feature.version.name }}
+            </p>            
+        </div>
+    </div>
+</div>
+{% endblock hero %}
+
 {% block content %}
-{% comment %} TODO {% endcomment %}
+<div class="container mt-4" data-aos="fade-up">
+    {{cpp_feature.description_html}}
+</div>
 {% endblock content %}
+
+<script>
+{% block jquery %}
+$('a').click(function(event) {
+    var tag = $(this).attr('href'); 
+    if (tag.includes("#")) {
+        event.preventDefault(); 
+        const tokens = tag.split("#");
+        var key = tokens[tokens.length-1];
+        $.ajax({
+            url: "{% url 'feature-search' %}",
+            type: 'GET',
+            data: {tag: key},
+            success: function(response) {
+                if (response.url) {
+                    window.location.replace(response.url);
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+});
+{% endblock jquery %}
+</script>
