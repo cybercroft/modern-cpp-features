@@ -146,3 +146,10 @@ class Handler:
                 raise ValueError(f"Feature (id={feature_pk}) does not exist!")
         return context
         
+
+# -----------------------------------------------------------------------------------------------------------
+def setup():
+# -----------------------------------------------------------------------------------------------------------
+    versions = Version.objects.all()
+    if versions.count() == 0:
+        _reconstruct_database()
