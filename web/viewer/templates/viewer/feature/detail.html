@@ -32,7 +32,7 @@ $('a').click(function(event) {
         const tokens = tag.split("#");
         var key = tokens[tokens.length-1];
         $.ajax({
-            url: "{% url 'feature-search' %}",
+            url: "{% url 'feature-find' %}",
             type: 'GET',
             data: {tag: key},
             success: function(response) {

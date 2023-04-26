@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.urls import reverse
 from .utils import Handler 
@@ -34,6 +34,15 @@ def home(request):
 
 
 # -----------------------------------------------------------------------------------------------------------
+def autocomplete(request):
+# -----------------------------------------------------------------------------------------------------------
+    """ Autocomplete for search-box """
+    handler = Handler(request)
+    options = handler.autocomplete()
+    return JsonResponse(options, safe=False)
+
+
+# -----------------------------------------------------------------------------------------------------------
 def refresh(request):
 # -----------------------------------------------------------------------------------------------------------
     """ Refresh database from files listed """
@@ -60,6 +69,24 @@ def feature_detail(request, pk):
 
 # -----------------------------------------------------------------------------------------------------------
 def feature_search(request):
+# -----------------------------------------------------------------------------------------------------------
+    """ Find CPP version feature from search-box """
+    name = request.GET.get("search_query", None)
+    features = Feature.objects.filter(name=name)
+    if features.count() == 0:
+        # FIXME: error message?
+        return redirect("/")
+    elif features.count() == 1:
+        feature = features.first()
+        return redirect("feature-detail", pk=feature.pk)
+    else:
+        handler = Handler(request)
+        extras = {"features": features}
+        return render(request, 'viewer/feature/list.html', handler.get_context(extras=extras))
+
+
+# -----------------------------------------------------------------------------------------------------------
+def feature_find(request):
 # -----------------------------------------------------------------------------------------------------------
     """ Find CPP version feature based on tag """
     tag = request.GET.get("tag", None)

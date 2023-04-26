@@ -60,11 +60,16 @@
 
     <!-- JQuery script block -->
     <script>
+        // timeout for messages
         setTimeout(function () {
             $('.alert').alert('fade');
             $('.alert').alert('close');
-        }, 2500);        
+        }, 2500);
         $(document).ready(function() {
+            // autocomplete for search box        
+            $("#search_box").autocomplete({
+                source: "{% url 'autocomplete' %}"
+            });            
             {% block jquery %}{% endblock %}
         });
     </script>

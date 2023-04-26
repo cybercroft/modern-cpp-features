@@ -1,4 +1,5 @@
 import re
+from django.db.models import Q
 from django.conf import settings
 from .models import Version, Feature, Section
 
@@ -104,6 +105,15 @@ class Handler:
     def is_empty(self):
         """ Return version objects found in database """
         return False if self.versions.count() > 0 else True 
+
+    def search(self, data='term'):
+        q = self.request.GET.get(data, None)
+        return Feature.objects.filter(name__icontains=q, title__icontains=q)
+    
+    def autocomplete(self, data='term'):
+        features = self.search(data)
+        options = [feature.name for feature in features]
+        return options
     
     def update(self):
         """ Updates db using repo file structure """

@@ -4,12 +4,12 @@
     {% for version in cpp_versions %}
         <li><a class="nav-link" href="{% url 'version-detail' version.pk %}">{{version.name}}</a></li>
     {% endfor %}
-    <form class="py-1 px-1 mx-3 w-100" action="." method="GET">
+    <form class="py-1 px-1 mx-3 w-100" action="{% url 'feature-search' %}" method="GET">
         {% csrf_token %}
-        <div id="search_form" class="search d-flex flex-row">
-            <input type="search" name="series" class="form-control" aria-describedby="btn_search"
-                aria-label="search" placeholder="Search..." />
-            <button id="btn_search" class="btn flex-shrink-0"><i class="fas fa-search"></i> Search</button>
+        <div id="search_form" class="search ui-widget d-flex flex-row">
+            <input id="search_box" type="search" name="search_query" class="form-control" 
+                aria-describedby="search_btn" aria-label="search" placeholder="Search..."/>
+            <button id="search_btn" type="submit" class="btn flex-shrink-0"><i class="fas fa-search"></i> Search</button>
         </div>
     </form>
     {% if user.is_authenticated %}
